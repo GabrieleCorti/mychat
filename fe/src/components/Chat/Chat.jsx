@@ -10,26 +10,31 @@ const Chat = () => {
     const [input, setInput] = useState('');
     const [messages, setMessages] = useState([]);
 
+    //per mantenere la connessione
+    
     const refSockets = useRef();
-    useEffect(()=>{
-        refSockets.current = openSocket('http://localhost:5000', { transports: ["websocket"] });
-
+    refSockets.current = io('http://localhost:5000');
+       
+    useEffect(()=>{   
         refSockets.current.on('chat message', (msg)=>{
-            setMessages([...messages, msg])
-        })
+            ReciveMessage(msg);
+         })
     }, [messages]);
 
+    //funzione che non serve perchè l'arrivo del msg scatena il setMsg
     const ReciveMessage = (msg) => {
         setMessages(oldMsg => [...oldMsg, msg ]);
     }
 
     const Send = (e) => {
+        
         e.preventDefault();
+        console.log(e.target[0].value);
         const messageInfo = {
-            body: input
+            body: e.target[0].value
         }
-        setInput('');
-        refSockets.current.emit('chat message', messageInfo)
+        e.target[0].value = '';
+        refSockets.current.emit('chat message', messageInfo);
     }
     
     
@@ -44,7 +49,7 @@ const Chat = () => {
             </ChatBox>
             <InputBox>
                 <form onSubmit={Send}>
-                    <TextBox type="text" id='text' name='text' onChange={e => setInput(e.target.value)}/>
+                    <TextBox type="text" id='text' name='text'  />
                     <BtnSubmit type='submit' >Send</BtnSubmit>
                 </form>
             </InputBox>
