@@ -15,8 +15,13 @@ const port = 5000
 io.on('connection', (socket) => {
     console.log('a user connected');
 });
-io.on('disconnect', () => {
-    console.log('ok');
- });
+
+
+io.on('connection', (socket)=> {
+    socket.on('chat message', (msg)=>{
+       console.log(msg);
+       io.emit('chat message', msg);
+    });
+});
 
 server.listen(port, () => console.log(`Example app listening on port port!`))
