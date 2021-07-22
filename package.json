@@ -4,7 +4,8 @@
   "description": "mychat",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "startall": "cd be && nodemon index.js & cd ../fe && npm start"
   },
   "repository": {
     "type": "git",
