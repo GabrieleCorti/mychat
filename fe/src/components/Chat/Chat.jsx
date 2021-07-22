@@ -1,10 +1,9 @@
 import React from 'react'
 import {ChatBox, InputBox, TextBox, BtnSubmit} from './ChatS';
 import openSocket from 'socket.io-client';
-import { io } from 'socket.io-client';
 
 const Chat = () => {
-    const socket =  openSocket('http://localhost:5000');
+    const socket =  openSocket('http://localhost:5000', { transports: ["websocket"] });
 
     return (
         <div>
