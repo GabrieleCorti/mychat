@@ -4,6 +4,8 @@ import {useState, useEffect, useRef } from 'react';
 import openSocket from 'socket.io-client';
 import io from 'socket.io-client';
 
+const socket = io('http://localhost:5000');
+
 const Chat = () => {
     
     /* const socket =  openSocket('http://localhost:5000', { transports: ["websocket"] }); */
@@ -13,7 +15,11 @@ const Chat = () => {
     //per mantenere la connessione
     
     const refSockets = useRef();
+<<<<<<< Updated upstream
     refSockets.current = io('http://localhost:5000');
+=======
+    /* refSockets.current = io('http://localhost:5000'); */
+>>>>>>> Stashed changes
        
     useEffect(()=>{   
         refSockets.current.on('chat message', (msg)=>{
