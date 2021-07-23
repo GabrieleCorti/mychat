@@ -3,11 +3,12 @@ import {ChatBox, InputBox, TextBox, BtnSubmit} from './ChatS';
 import {useState, useEffect, useRef } from 'react';
 import openSocket from 'socket.io-client';
 import io from 'socket.io-client';
+import { Redirect } from 'react-router-dom';
 
 
 const refSockets = io('http://localhost:5000');
 
-const Chat = () => {
+const ChatVew = () => {
     
     /* const socket =  openSocket('http://localhost:5000', { transports: ["websocket"] }); */
     const [input, setInput] = useState('');
@@ -64,6 +65,17 @@ const Chat = () => {
                 </form>
             </InputBox>
         </div>
+    )
+}
+
+const Chat = () => {
+    return (
+        <> 
+            {
+                localStorage.getItem('token') && <ChatVew /> || <Redirect to='/login' />
+            }
+        </>
+
     )
 }
 
