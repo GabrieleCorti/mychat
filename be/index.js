@@ -16,11 +16,17 @@ io.on('connection', (socket) => {
     console.log('a user connected');
 });
 
+/* io.on('connection', (socket) => {
+  socket.on('room', room => {
+   
+    /* console.log(socket); 
+  });
+}); */
 
 io.on('connection', (socket)=> {
     socket.on('chat message', (msg)=>{
-       console.log(msg);
-       io.emit('chat message', msg);
+        socket.join(msg.room);
+       io.to(msg.room).emit('chat message', msg);
     });
 });
 

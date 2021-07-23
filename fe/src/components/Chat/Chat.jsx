@@ -4,6 +4,9 @@ import {useState, useEffect, useRef } from 'react';
 import openSocket from 'socket.io-client';
 import io from 'socket.io-client';
 
+
+const refSockets = io('http://localhost:5000');
+
 const Chat = () => {
     
     /* const socket =  openSocket('http://localhost:5000', { transports: ["websocket"] }); */
@@ -12,31 +15,36 @@ const Chat = () => {
 
     //per mantenere la connessione
     
-    const refSockets = useRef();
+    /* const refSockets = useRef(); */
 
-    refSockets.current = io('http://localhost:5000');
+    
 
        
-    useEffect(()=>{   
-        refSockets.current.on('chat message', (msg)=>{
-            ReciveMessage(msg);
-         })
+    useEffect(()=>{ 
+        /* refSockets.current = io('http://localhost:5000');  */ 
+        refSockets.on('chat message', (msg)=>{
+            /* ReciveMessage(msg); */
+            setMessages([...messages, msg]);
+         });
+        /*  refSockets.current.off() */
     }, [messages]);
 
     //funzione che non serve perchè l'arrivo del msg scatena il setMsg
-    const ReciveMessage = (msg) => {
+    /* const ReciveMessage = (msg) => {
         setMessages(oldMsg => [...oldMsg, msg ]);
-    }
+    } */
 
     const Send = (e) => {
         
         e.preventDefault();
         console.log(e.target[0].value);
         const messageInfo = {
+            name: localStorage.getItem('name'),
+            room: localStorage.getItem('room'),
             body: e.target[0].value
         }
         e.target[0].value = '';
-        refSockets.current.emit('chat message', messageInfo);
+        refSockets.emit('chat message', messageInfo);
     }
     
     
@@ -45,7 +53,7 @@ const Chat = () => {
             <ChatBox>
                 {
                     messages.map((e, index)=>{
-                        return <div key={index}>{e.body}</div>
+                        return <div key={index}>{e.name}: {e.body}</div>
                     })
                 }
             </ChatBox>
