@@ -4,21 +4,25 @@ import {useState, useEffect, useRef } from 'react';
 import openSocket from 'socket.io-client';
 import io from 'socket.io-client';
 import { Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router';
+import axios from 'axios';
 
 
-const refSockets = io('http://localhost:5000');
+const refSockets = io('http://localhost:5000',{ auth: {
+    token: localStorage.getItem('token')
+  }
+});
 
 const ChatVew = () => {
     
     /* const socket =  openSocket('http://localhost:5000', { transports: ["websocket"] }); */
-    const [input, setInput] = useState('');
     const [messages, setMessages] = useState([]);
 
     //per mantenere la connessione
     
     /* const refSockets = useRef(); */
 
-    
+    const history = useHistory();
 
        
     useEffect(()=>{ 
@@ -42,10 +46,27 @@ const ChatVew = () => {
         const messageInfo = {
             name: localStorage.getItem('name'),
             room: localStorage.getItem('room'),
+            
             body: e.target[0].value
         }
         e.target[0].value = '';
         refSockets.emit('chat message', messageInfo);
+        try {
+            axios({
+                method: 'get',
+                url: 'http://localhost:5000/validtoken',
+                data: {
+                    token: localStorage.getItem('token'),
+                } 
+            })
+            .then((res)=>{
+                if (!res.data.isValidToken) {
+                  history.push('/login')
+                }
+            })
+        } catch (error) {
+            console.log(error);
+        }
     }
     
     

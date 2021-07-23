@@ -4,3 +4,11 @@ Content-Type: application/json
 {
     "name": "Floriano"
 }
+
+###
+GET http://localhost:5000/validtoken
+Content-Type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjcwNTQwMjA2NDUsIm5hbWUiOiJGbG9yaWFubyIsImlhdCI6MTYyNzA1MDQyMH0.nIMto_EXukl-FSm_f3kJc8jF-uLLC-m5oNFXtBtzGF8"
+}
