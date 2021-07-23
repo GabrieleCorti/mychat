@@ -2,7 +2,7 @@ import React from 'react'
 import {Page, LogIn, Title, Input, Label, LogInBtn} from './LoginS';
 import { useState } from 'react';
 import { useHistory } from "react-router-dom";
-
+import axios from 'axios';
 
 const Login = () => {
 
@@ -14,7 +14,21 @@ const Login = () => {
         if (logInfo.name && logInfo.room) {
             localStorage.setItem('name', logInfo.name );
             localStorage.setItem('room', logInfo.room );
-            history.push('/room');
+            try {
+                axios({
+                    method: 'post',
+                    url: 'http://localhost:5000/login',
+                    data: {
+                        name: logInfo.name
+                    }
+                })
+                .then((res)=>{
+                    localStorage.setItem('token', res.data.token);
+                    history.push('/room');
+                })
+            } catch (error) {
+                console.log(error);
+            }
         }
     }
 
