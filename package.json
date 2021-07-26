@@ -16,5 +16,6 @@
   "bugs": {
     "url": "https://github.com/GabrieleCorti/mychat/issues"
   },
-  "homepage": "https://github.com/GabrieleCorti/mychat#readme"
+  "homepage": "https://github.com/GabrieleCorti/mychat#readme",
+  "dependencies": {}
 }

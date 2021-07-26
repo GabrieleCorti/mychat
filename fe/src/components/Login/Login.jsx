@@ -3,8 +3,10 @@ import { Page, LogIn, Title, Input, Label, LogInBtn } from "./LoginS";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
+import { useTranslation } from 'react-i18next';
 
 const Login = () => {
+  const { t } = useTranslation();
   const [logInfo, setLogInfo] = useState({ name: "unknown", room: "" });
   let history = useHistory();
 
@@ -34,7 +36,7 @@ const Login = () => {
   return (
     <Page>
       <LogIn>
-        <Title>LogIn</Title>
+        <Title>{t('login')}</Title>
         <Label htmlFor="name">Name:</Label>
         <Input
           type="text"
